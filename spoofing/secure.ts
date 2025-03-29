@@ -4,14 +4,14 @@ import session from "express-session";
 const app = express();
 const secret: string = process.argv[2];
 
-/** 
- * Extend the SessionData interface 
+/**
+ * Extend the SessionData interface
  * to include custom session properties.
- * This is an example of module augmentation in TypeScript 
- * to extend the express-session module with custom properties 
- * Read more at https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation 
+ * This is an example of module augmentation in TypeScript
+ * to extend the express-session module with custom properties
+ * Read more at https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation
  * **/
-declare module 'express-session' {
+declare module "express-session" {
   interface SessionData {
     user?: string;
     sensitive?: string;
@@ -26,13 +26,13 @@ app.use(
   session({
     secret: `${secret}`,
     cookie: {
-        httpOnly: true,
-        sameSite: true,
+      httpOnly: true,
+      sameSite: true,
     },
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   })
-)
+);
 
 /**
  * This POST endpoints is used to perform a sensitive operation
@@ -40,11 +40,11 @@ app.use(
  * otherwise, it will return an error message with "Unauthorized Access"
  */
 app.post("/sensitive", (req: Request, res: Response) => {
-  if (req.session.user === 'Admin') {
-    req.session.sensitive = 'supersecret';
-    res.send({ message: 'Operation successful' });
+  if (req.session.user === "Admin") {
+    req.session.sensitive = "supersecret";
+    res.send({ message: "Operation successful" });
   } else {
-    res.send({ message: 'Unauthorized Access' });
+    res.send({ message: "Unauthorized Access" });
   }
 });
 
@@ -59,7 +59,7 @@ app.get("/", (req: Request, res: Response) => {
   if (req.session.user) name = req.session.user;
 
   res.send(`
-  <h1>Welcome, ${name}</h1>
+  <h1>Welcome, ${name} </h1>
   <form action="/register" method="POST">
     <input type="text" name="name" placeholder="Your name">
     <button>Submit</button>
@@ -71,7 +71,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 /**
- * This POST endpoint is used to redirect 
+ * This POST endpoint is used to redirect
  * users after they have submitted their name
  * in the form.
  */
@@ -84,7 +84,7 @@ app.post("/register", (req: Request, res: Response) => {
  * This POST endpoint is used to destroy an existing session
  */
 app.post("/forget", (req: Request, res: Response) => {
-  req.session.destroy(err => {
+  req.session.destroy((err) => {
     res.redirect("/");
   });
 });

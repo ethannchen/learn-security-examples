@@ -31,5 +31,10 @@ This will create a database in MongoDB called __infodisclosure__. Verify its pre
 Answer the following:
 
 1. Briefly explain the potential vulnerabilities in **insecure.ts**
+   - NoSQL Injection Risk: The username from req.query is directly used in `User.findOne()`.
+
 2. Briefly explain how a malicious attacker can exploit them.
+   - Attackers can manipulate queries using MongoDB query operators like `username[$ne]=` which could transform the query into something like `{ "username": { "$ne": "" } }`. This would match any document where the `username` is not equal to an empty string, which could potentially return any users in the database or bypass authentication 
+
 3. Briefly explain the defensive techniques used in **secure.ts** to prevent the information disclosure vulnerability?
+   - The username parameter from the query is checked to ensure it is a string, and the input is sanitized by removing non-alphanumeric characters: prevents characters that could be interpreted as MongoDB operators (`e.g., $ne, $gt, $in`) from being used in the query, mitigating the risk of NoSQL injection.

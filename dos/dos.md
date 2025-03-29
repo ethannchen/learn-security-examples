@@ -31,5 +31,8 @@ This will create a database in MongoDB called __infodisclosure__. Verify its pre
 Answer the following:
 
 1. Briefly explain the potential vulnerabilities in **insecure.ts** that can lead to a DoS attack.
+   - Lack of Rate Limiting
 2. Briefly explain how a malicious attacker can exploit them.
+   - A malicious attacker can attack by sending a large volume of requests to the server in a short time, overwhelming the server's resources (e.g., CPU, memory, or database) and causing it to slow down, or even crash. 
 3. Briefly explain the defensive techniques used in **secure.ts** to prevent the DoS vulnerability?
+   - The code integrates the express-rate-limit package, which limits the number of requests a single IP can make within a specific time window (in this case, 1 request per 5 seconds). This helps prevent flood attacks.

@@ -25,5 +25,8 @@ This example demonstrates tampering through script injection.
 Answer the following:
 
 1. Briefly explain the potential vulnerabilities in **insecure.ts**
+    - Cross-Site Scripting (XSS): The name input in the `/register` route is stored in the session without sanitization, allowing an attacker to inject malicious HTML or JavaScript.
 2. Briefly explain how a malicious attacker can exploit them.
+   - A user could enter a script `<script> document.body.innerHTML = "<a href='https://google.com'> Gotcha </a>"</script>` as their name, and when the session is used in the response, the script will execute in the victim's browser, and the victim will be potentially redirect to other malicious website.
 3. Briefly explain why **secure.ts** does not have the same vulnerabilties?
+   - The `escapeHTML` function sanitizes user input before storing it, preventing malicious scripts from being injected.

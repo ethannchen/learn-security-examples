@@ -1,6 +1,6 @@
 # Spoofing
 
-This example demonstrates spoofind through two ways -- Stealing cookies programmatically and cross site request forgery (CSRF).
+This example demonstrates spoofing through two ways -- Stealing cookies programmatically and cross site request forgery (CSRF).
 
 ## Steps to reproduce the vulnerability
 
@@ -30,5 +30,16 @@ This example demonstrates spoofind through two ways -- Stealing cookies programm
 ## For you to answer
 
 1. Briefly explain the spoofing vulnerability in **insecure.ts**.
+   - Session hijacking
+   - Cross-site Request Forgery (CSRF)
+
 2. Briefly explain different ways in which vulnerability can be exploited.
+    - `httpOnly: false` in the session cookie: meaning hackers can use malicious scripts (XSS attacks) to steal cookies.
+    - Weak hardcoded secret key ("SOMESECRET"): If a hacker figures out the secret key, they can create fake session cookies and log in as any user.
+    - If an admin is logged in and visits a hacker’s website, the hacker can secretly send a request to real website `/sensitive` and do bad things.
+    - No `sameSite` protection: Cookies are sent even on requests from other websites, allowing attackers to use tricks like hidden forms to perform actions.
+   
 3. Briefly explain why **secure.ts** does not have the spoofing vulnerability in **insecure.ts**.
+    - Uses `httpOnly: true`: Stops JavaScript from stealing cookies.
+    - Uses a customizable secret key `process.argv[2]`: Makes it harder for hackers to guess
+    - Uses `sameSite: true`: Stops cookies from being used in cross-site attacks.
